@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
+  const pizzaTypes = ["тонкое", "традиционное"];
+
   const [pizzaCount, setPizzaCount] = useState(0);
   const [activePizzaType, setActivePizzaType] = useState(0);
   const [activePizzaSize, setActivePizzaSize] = useState(0);
-
-  const pizzaTypes = ["тонкое", "традиционное"];
 
   const addButtonHandler = () => {
     setPizzaCount(pizzaCount + 1);
@@ -23,13 +23,13 @@ export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          {types.map((type) => (
+          {types.map((typeId, id) => (
             <li
-              onClick={() => typeClickHandler(type)}
-              className={activePizzaType === type ? "active" : ""}
-              key={type}
+              onClick={() => typeClickHandler(id)}
+              className={activePizzaType === id ? "active" : ""}
+              key={typeId}
             >
-              {pizzaTypes[type]}
+              {pizzaTypes[typeId]}
             </li>
           ))}
         </ul>
