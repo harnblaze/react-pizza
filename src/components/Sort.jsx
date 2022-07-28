@@ -39,6 +39,7 @@ export default function Sort() {
               <li
                 onClick={() => clickSortHandler(id)}
                 className={activeSort === id ? "active" : ""}
+                key={sortName}
               >
                 {sortName}
               </li>
