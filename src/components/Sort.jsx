@@ -1,22 +1,38 @@
 import React, { useState } from "react";
 
-export default function Sort() {
-  const sortNames = ["популярности", "цене", "алфавиту"];
+export default function Sort({
+  activeSort,
+  onChangeSort,
+  order,
+  onChangeOrder,
+}) {
+  const sortNames = [
+    { sortName: "популярности", sortProperty: "rating" },
+    { sortName: "цене", sortProperty: "price" },
+    {
+      sortName: "алфавиту",
+      sortProperty: "title",
+    },
+  ];
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
-  const [activeSort, setActiveSort] = useState(0);
 
-  const clickSortHandler = (id) => {
-    setActiveSort(id);
-    setIsOpenPopup(!isOpenPopup);
-  };
   const togglePopup = () => {
     setIsOpenPopup(!isOpenPopup);
   };
 
+  const changeSort = (sort) => {
+    togglePopup();
+    onChangeSort(sort);
+  };
+
+  const changeOrder = () => {
+    onChangeOrder(!order);
+  };
+
   return (
     <div className="sort">
-      <div className="sort__label">
+      <div className={order ? "sort__label" : "sort__label sort__label_down"}>
         <svg
           width="10"
           height="6"
@@ -29,19 +45,21 @@ export default function Sort() {
             fill="#2C2C2C"
           />
         </svg>
-        <b>Сортировка по:</b>
-        <span onClick={togglePopup}>{sortNames[activeSort]}</span>
+        <b onClick={changeOrder}>Сортировка по:</b>
+        <span onClick={togglePopup}>{activeSort.sortName}</span>
       </div>
       {isOpenPopup && (
         <div className="sort__popup">
           <ul>
-            {sortNames.map((sortName, id) => (
+            {sortNames.map((sort) => (
               <li
-                onClick={() => clickSortHandler(id)}
-                className={activeSort === id ? "active" : ""}
-                key={sortName}
+                onClick={() => changeSort(sort)}
+                className={
+                  activeSort.sortName === sort.sortName ? "active" : ""
+                }
+                key={sort.sortName}
               >
-                {sortName}
+                {sort.sortName}
               </li>
             ))}
           </ul>
