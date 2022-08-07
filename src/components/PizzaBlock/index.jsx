@@ -8,7 +8,7 @@ export default function PizzaBlock({ title, price, imageUrl, sizes, types }) {
   const [activePizzaSize, setActivePizzaSize] = useState(0);
 
   const addButtonHandler = () => {
-    setPizzaCount(pizzaCount + 1);
+    setPizzaCount((prev) => prev + 1);
   };
   const typeClickHandler = (id) => {
     setActivePizzaType(id);

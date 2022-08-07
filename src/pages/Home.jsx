@@ -5,7 +5,7 @@ import Skeleton from "../components/PizzaBlock/Skeleton";
 import PizzaBlock from "../components/PizzaBlock";
 import Pagination from "../components/Pagination";
 
-function Home({searchValue}) {
+function Home({ searchValue }) {
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState(0);
@@ -29,15 +29,18 @@ function Home({searchValue}) {
   };
 
   const changePage = (page) => {
-    setCurrentPAge(page)
-  }
+    setCurrentPAge(page);
+  };
 
   useEffect(() => {
     setIsLoading(true);
+    const category = activeCategory > 0 ? `category=${activeCategory}` : "";
+    const search = searchValue ? `&search=${searchValue}` : "";
+
     fetch(
-      `https://62e2d90a3891dd9ba8f0e998.mockapi.io/items?category=${
-        activeCategory || ""
-      }&page=${currentPage}&limit=4&sortBy=${activeSort.sortProperty}&order=${order ? "asc" : "desc"}&search=${searchValue}`
+      `https://62e2d90a3891dd9ba8f0e998.mockapi.io/items?${category}&page=${currentPage}&limit=4&sortBy=${
+        activeSort.sortProperty
+      }&order=${order ? "asc" : "desc"}${search}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -76,7 +79,7 @@ function Home({searchValue}) {
               />
             ))}
       </div>
-      <Pagination currentPage={currentPage} onChangePage={changePage}/>
+      <Pagination currentPage={currentPage} onChangePage={changePage} />
     </div>
   );
 }

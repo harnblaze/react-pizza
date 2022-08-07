@@ -18,7 +18,7 @@ export default function Sort({
   const [isOpenPopup, setIsOpenPopup] = useState(false);
 
   const togglePopup = () => {
-    setIsOpenPopup(!isOpenPopup);
+    setIsOpenPopup((prev) => !prev);
   };
 
   const changeSort = (sort) => {
@@ -27,7 +27,7 @@ export default function Sort({
   };
 
   const changeOrder = () => {
-    onChangeOrder(!order);
+    onChangeOrder((prev) => !prev);
   };
 
   return (
