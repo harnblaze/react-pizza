@@ -1,11 +1,8 @@
 import React, { useState } from "react";
+import { changeSort, changeOrder } from "../redux/slices/filterSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function Sort({
-  activeSort,
-  onChangeSort,
-  order,
-  onChangeOrder,
-}) {
+export default function Sort() {
   const sortNames = [
     { sortName: "популярности", sortProperty: "rating" },
     { sortName: "цене", sortProperty: "price" },
@@ -14,6 +11,8 @@ export default function Sort({
       sortProperty: "title",
     },
   ];
+  const { sort, order } = useSelector((state) => state.filterSlice);
+  const dispatch = useDispatch();
 
   const [isOpenPopup, setIsOpenPopup] = useState(false);
 
@@ -21,13 +20,13 @@ export default function Sort({
     setIsOpenPopup((prev) => !prev);
   };
 
-  const changeSort = (sort) => {
+  const onChangeSort = (sort) => {
     togglePopup();
-    onChangeSort(sort);
+    dispatch(changeSort(sort));
   };
 
-  const changeOrder = () => {
-    onChangeOrder((prev) => !prev);
+  const onChangeOrder = () => {
+    dispatch(changeOrder());
   };
 
   return (
@@ -45,21 +44,19 @@ export default function Sort({
             fill="#2C2C2C"
           />
         </svg>
-        <b onClick={changeOrder}>Сортировка по:</b>
-        <span onClick={togglePopup}>{activeSort.sortName}</span>
+        <b onClick={onChangeOrder}>Сортировка по:</b>
+        <span onClick={togglePopup}>{sort.sortName}</span>
       </div>
       {isOpenPopup && (
         <div className="sort__popup">
           <ul>
-            {sortNames.map((sort) => (
+            {sortNames.map((sortType) => (
               <li
-                onClick={() => changeSort(sort)}
-                className={
-                  activeSort.sortName === sort.sortName ? "active" : ""
-                }
-                key={sort.sortName}
+                onClick={() => onChangeSort(sortType)}
+                className={sort.sortName === sortType.sortName ? "active" : ""}
+                key={sortType.sortName}
               >
-                {sort.sortName}
+                {sortType.sortName}
               </li>
             ))}
           </ul>
