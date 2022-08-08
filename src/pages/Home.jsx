@@ -18,7 +18,7 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPAge] = useState(1);
 
-  const searchValue = useContext(AppContext);
+  const { searchValue } = useContext(AppContext);
 
   const onChangeCategory = (id) => {
     dispatch(changeCategory(id));
