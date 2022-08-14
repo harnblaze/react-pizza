@@ -9,6 +9,7 @@ import Sort from "../components/Sort";
 import Skeleton from "../components/PizzaBlock/Skeleton";
 import PizzaBlock from "../components/PizzaBlock";
 import Pagination from "../components/Pagination";
+import axios from "axios";
 
 function Home() {
   const dispatch = useDispatch();
@@ -33,14 +34,14 @@ function Home() {
     const category = categoryId > 0 ? `category=${categoryId}` : "";
     const search = searchValue ? `&search=${searchValue}` : "";
 
-    fetch(
-      `https://62e2d90a3891dd9ba8f0e998.mockapi.io/items?${category}&page=${currentPage}&limit=4&sortBy=${
-        sort.sortProperty
-      }&order=${order ? "asc" : "desc"}${search}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setPizzas(data);
+    axios
+      .get(
+        `https://62e2d90a3891dd9ba8f0e998.mockapi.io/items?${category}&page=${currentPage}&limit=4&sortBy=${
+          sort.sortProperty
+        }&order=${order ? "asc" : "desc"}${search}`
+      )
+      .then((res) => {
+        setPizzas(res.data);
         setIsLoading(false);
       });
     window.scroll(0, 0);
@@ -58,7 +59,7 @@ function Home() {
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {isLoading
-          ? [...new Array(12)].map((_, id) => <Skeleton key={id} />)
+          ? [...new Array(4)].map((_, id) => <Skeleton key={id} />)
           : pizzas.map((pizza) => (
               <PizzaBlock
                 title={pizza.title}
