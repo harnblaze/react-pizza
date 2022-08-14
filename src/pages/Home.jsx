@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { changeCategory } from "../redux/slices/filterSlice";
+import { changeCategory, changeCurrentPage } from "../redux/slices/filterSlice";
 import { AppContext } from "../App";
 
 import Categories from "../components/Categories";
@@ -13,11 +13,12 @@ import axios from "axios";
 
 function Home() {
   const dispatch = useDispatch();
-  const { categoryId, sort, order } = useSelector((state) => state.filterSlice);
+  const { categoryId, sort, order, currentPage } = useSelector(
+    (state) => state.filterSlice
+  );
 
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPAge] = useState(1);
 
   const { searchValue } = useContext(AppContext);
 
@@ -26,7 +27,7 @@ function Home() {
   };
 
   const changePage = (page) => {
-    setCurrentPAge(page);
+    dispatch(changeCurrentPage(page));
   };
 
   useEffect(() => {
