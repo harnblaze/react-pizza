@@ -5,10 +5,11 @@ import debounce from "lodash.debounce";
 import classes from "./Search.module.scss";
 
 function Search() {
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");
   const { setSearchValue } = useContext(AppContext);
   const inputRef = useRef();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateSearchValue = useCallback(
     debounce((str) => setSearchValue(str), 350),
     []
